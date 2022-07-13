@@ -17,14 +17,7 @@ import java.util.function.Function;
 public class SeleniumUtils {
 
     public static void switchToWindow(String targetTitle) {
-//String nameChat = "WebstaurantStore Online Chat";
-//        Set<String> windowHandles = driver.getWindowHandles();
-//        for(String windowHandle:windowHandles){
-//            driver.switchTo().window(windowHandle);
-//            if (driver.getTitle().equals(nameChat)){
-//                break;
-//            }
-//        }
+
         String origin = Driver.getDriver().getWindowHandle();
         for (String handle : Driver.getDriver().getWindowHandles()) {
             Driver.getDriver().switchTo().window(handle);

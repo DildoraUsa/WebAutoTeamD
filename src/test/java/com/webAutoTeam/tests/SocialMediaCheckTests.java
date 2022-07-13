@@ -1,5 +1,8 @@
 package com.webAutoTeam.tests;
 
+import com.webAutoTeam.pages.HomePage;
+import com.webAutoTeam.pages.ProductsPage;
+import com.webAutoTeam.pages.SearchPage;
 import com.webAutoTeam.utilities.ConfigReader;
 import com.webAutoTeam.utilities.SeleniumUtils;
 import org.openqa.selenium.By;
@@ -14,17 +17,19 @@ import static com.webAutoTeam.utilities.SeleniumUtils.switchToWindow;
 
 public class SocialMediaCheckTests extends TestBase{
 
-    @Test
+    @Test(groups = {"smoke"})
     public void checkFacebookLinks() throws InterruptedException {
 
         driver.get(ConfigReader.getProperty("url"));
-        SeleniumUtils.scrollToElement(driver.findElement(By.xpath("//a[@href='https://www.facebook.com/WebstaurantStore']")));
-        driver.findElement(By.xpath("//a[@href='https://www.facebook.com/WebstaurantStore']")).click();
+        HomePage homePage = new HomePage();
+        SeleniumUtils.scrollToElement(homePage.findFacebook);
+        homePage.findFacebook.click();
         Thread.sleep(1000);
         SeleniumUtils.switchToWindow("WebstaurantStore - Home | Facebook");
         System.out.println(driver.getTitle());
-        driver.findElement(By.xpath("(//div[@class='bp9cbjyn rq0escxv j83agx80 pfnyh3mw frgo5egb l9j0dhe7 cb02d2ww hv4rvrfc dati1w0a'])[4]")).click();
-        getScreenshot("FacebookScreenShot");
+        SearchPage searchPage = new SearchPage();
+        searchPage.searchPhoto.click();
+        SeleniumUtils.getScreenshot("FacebookScreenShot");
         switchToWindow("WebstaurantStore: Restaurant Supplies & Foodservice Equipment");
         Assert.assertEquals(driver.getTitle(),"WebstaurantStore: Restaurant Supplies & Foodservice Equipment");
     }
@@ -33,12 +38,14 @@ public class SocialMediaCheckTests extends TestBase{
     public void checkTwitterLinks() throws InterruptedException {
 
         driver.get(ConfigReader.getProperty("url"));
-        scrollToElement(driver.findElement(By.xpath("//a[@href='https://twitter.com/Webstaurant']")));
-        driver.findElement(By.xpath("//a[@href='https://twitter.com/Webstaurant']")).click();
+        HomePage homePage = new HomePage();
+        SeleniumUtils.scrollToElement(homePage.findTwitter);
+        homePage.findTwitter.click();
         Thread.sleep(2000);
         switchToWindow("WebstaurantStore (@Webstaurant) / Twitter");
         System.out.println(driver.getTitle());
-        driver.findElement(By.xpath("//span[.='Tweets & replies']")).click();
+        SearchPage searchPage = new SearchPage();
+        searchPage.searchTweets.click();
         switchToWindow("WebstaurantStore: Restaurant Supplies & Foodservice Equipment");
         Assert.assertEquals(driver.getTitle(),"WebstaurantStore: Restaurant Supplies & Foodservice Equipment");
     }
@@ -47,8 +54,9 @@ public class SocialMediaCheckTests extends TestBase{
     public void checkInstagramLinks() throws InterruptedException {
 
         driver.get(ConfigReader.getProperty("url"));
-        SeleniumUtils.scrollToElement(driver.findElement(By.xpath("//a[@href='https://www.instagram.com/WebstaurantStore/']")));
-        driver.findElement(By.xpath("//a[@href='https://www.instagram.com/WebstaurantStore/']")).click();
+        HomePage homePage = new HomePage();
+        SeleniumUtils.scrollToElement(homePage.findInstagram);
+        homePage.findInstagram.click();
         Thread.sleep(2000);
         SeleniumUtils.switchToWindow("Login Instagram");
         //  SeleniumUtils.switchToWindow("Webstaurantstore (@webstaurantstore) Instagram..");
@@ -63,13 +71,15 @@ public class SocialMediaCheckTests extends TestBase{
     public void checkYouTubeLinks() throws InterruptedException {
 
         driver.get(ConfigReader.getProperty("url"));
-        scrollToElement(driver.findElement(By.xpath("//a[@href='https://www.youtube.com/user/WebstaurantStore']")));
-        driver.findElement(By.xpath("//a[@href='https://www.youtube.com/user/WebstaurantStore']")).click();
+        HomePage homePage = new HomePage();
+        SeleniumUtils.scrollToElement(homePage.findYouTube);
+        homePage.findYouTube.click();
         Thread.sleep(2000);
         switchToWindow("WebstaurantStore - YouTube");
         System.out.println(driver.getTitle());
-        waitForClickablility(driver.findElement(By.xpath("(//div[@class='ytp-scrubber-container'])[1]")),3);
-        WebElement element = driver.findElement(By.xpath("(//div[@class='ytp-scrubber-container'])[1]"));
+        ProductsPage productsPage = new ProductsPage();
+        SeleniumUtils.waitForClickablility(productsPage.findScrollButton,3);
+        WebElement element = productsPage.findScrollButton;
         Actions actions = new Actions(driver);
         actions.moveToElement(element).sendKeys(Keys.ARROW_RIGHT).sendKeys(Keys.ARROW_RIGHT).sendKeys(Keys.ARROW_RIGHT).build().perform();
         SeleniumUtils.getScreenshot("YouTube");
