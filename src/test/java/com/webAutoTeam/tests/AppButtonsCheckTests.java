@@ -2,6 +2,7 @@ package com.webAutoTeam.tests;
 
 import com.webAutoTeam.utilities.ConfigReader;
 import org.openqa.selenium.By;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import static com.webAutoTeam.utilities.SeleniumUtils.*;
@@ -46,29 +47,47 @@ public class AppButtonsCheckTests extends TestBase{
     }
 
     @Test
-    public void checkFacebookLinks(){
+    public void checkFacebookLinks() throws InterruptedException {
 
         driver.get(ConfigReader.getProperty("url"));
         scrollToElement(driver.findElement(By.xpath("//a[@href='https://www.facebook.com/WebstaurantStore']")));
         driver.findElement(By.xpath("//a[@href='https://www.facebook.com/WebstaurantStore']")).click();
+        Thread.sleep(1000);
         switchToWindow("WebstaurantStore - Home | Facebook");
 
         System.out.println(driver.getTitle());
-      //  driver.findElement(By.xpath("(//div[@class='bp9cbjyn rq0escxv j83agx80 pfnyh3mw frgo5egb l9j0dhe7 cb02d2ww hv4rvrfc dati1w0a'])[4]")).click();
+        driver.findElement(By.xpath("(//div[@class='bp9cbjyn rq0escxv j83agx80 pfnyh3mw frgo5egb l9j0dhe7 cb02d2ww hv4rvrfc dati1w0a'])[4]")).click();
+        getScreenshot("FacebookScreenShot");
+        switchToWindow("WebstaurantStore: Restaurant Supplies & Foodservice Equipment");
+        Assert.assertEquals(driver.getTitle(),"WebstaurantStore: Restaurant Supplies & Foodservice Equipment");
     }
 
     @Test
-    public void checkTwitterLinks(){
+    public void checkTwitterLinks() throws InterruptedException {
 
         driver.get(ConfigReader.getProperty("url"));
-        scrollToElement(driver.findElement(By.xpath("//a[@href='https://www.facebook.com/WebstaurantStore']")));
-        driver.findElement(By.xpath("//a[@href='https://www.facebook.com/WebstaurantStore']")).click();
-        switchToWindow("WebstaurantStore - Home | Facebook");
+        scrollToElement(driver.findElement(By.xpath("//a[@href='https://twitter.com/Webstaurant']")));
+        driver.findElement(By.xpath("//a[@href='https://twitter.com/Webstaurant']")).click();
+        Thread.sleep(2000);
+        switchToWindow("WebstaurantStore (@Webstaurant) / Twitter");
         System.out.println(driver.getTitle());
-       // waitForVisibility(By.xpath("(//div[@class='bp9cbjyn rq0escxv j83agx80 pfnyh3mw frgo5egb l9j0dhe7 cb02d2ww hv4rvrfc dati1w0a'])[4]"),3);
-        driver.findElement(By.xpath("(//div[@class='bp9cbjyn rq0escxv j83agx80 pfnyh3mw frgo5egb l9j0dhe7 cb02d2ww hv4rvrfc dati1w0a'])[4]")).click();
-        driver.quit();
-       // switchToWindow("WebstaurantStore: Restaurant Supplies & Foodservice Equipment");
+        driver.findElement(By.xpath("//span[.='Tweets & replies']")).click();
+        switchToWindow("WebstaurantStore: Restaurant Supplies & Foodservice Equipment");
+        Assert.assertEquals(driver.getTitle(),"WebstaurantStore: Restaurant Supplies & Foodservice Equipment");
+    }
+
+    @Test
+    public void checkInstagramLinks() throws InterruptedException {
+
+        driver.get(ConfigReader.getProperty("url"));
+        scrollToElement(driver.findElement(By.xpath("//a[@href='https://www.instagram.com/WebstaurantStore/']")));
+        driver.findElement(By.xpath("//a[@href='https://www.instagram.com/WebstaurantStore/']")).click();
+        Thread.sleep(2000);
+        switchToWindow("Login Instagram");
         System.out.println(driver.getTitle());
+//        driver.findElement(By.xpath("//span[@aria-label='Close']")).click();
+//        driver.findElement(By.xpath("//span[@class='rlFg3']")).click();
+        switchToWindow("WebstaurantStore: Restaurant Supplies & Foodservice Equipment");
+        Assert.assertEquals(driver.getTitle(),"WebstaurantStore: Restaurant Supplies & Foodservice Equipment");
     }
 }
