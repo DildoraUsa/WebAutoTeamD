@@ -1,60 +1,27 @@
 package com.webAutoTeam.tests;
 
 import com.webAutoTeam.utilities.ConfigReader;
+import com.webAutoTeam.utilities.SeleniumUtils;
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
 import static com.webAutoTeam.utilities.SeleniumUtils.*;
+import static com.webAutoTeam.utilities.SeleniumUtils.switchToWindow;
 
-public class AppButtonsCheckTests extends TestBase{
-    // driver.get(ConfigReader.getProperty("url"));
-
-    @Test
-     public void checkAboutUsButtonBoston() {
-
-        driver.get(ConfigReader.getProperty("url"));
-        scroll(0,1000);
-        driver.findElement(By.xpath("//a[.='About Us']")).click();
-        scrollToElement(driver.findElement(By.xpath("//a[.='Boston']")));
-        driver.findElement(By.xpath("//a[.='Boston']")).click();
-        System.out.println(driver.getTitle());
-
-    }
-
-    @Test
-    public void checkAboutUsButtonKansasCity() {
-
-        driver.get(ConfigReader.getProperty("url"));
-        scroll(0,1000);
-        driver.findElement(By.xpath("//a[.='About Us']")).click();
-        scrollToElement(driver.findElement(By.xpath("//a[.='Kansas City']")));
-        driver.findElement(By.xpath("//a[.='Kansas City']")).click();
-        System.out.println(driver.getTitle());
-
-    }
-
-    @Test
-    public void checkAboutUsButtonNewYorkCity() {
-
-        driver.get(ConfigReader.getProperty("url"));
-        scroll(0,1000);
-        driver.findElement(By.xpath("//a[.='About Us']")).click();
-        scrollToElement(driver.findElement(By.xpath("//a[.='New York City']")));
-        driver.findElement(By.xpath("//a[.='New York City']")).click();
-        System.out.println(driver.getTitle());
-
-    }
+public class SocialMediaCheckTests extends TestBase{
 
     @Test
     public void checkFacebookLinks() throws InterruptedException {
 
         driver.get(ConfigReader.getProperty("url"));
-        scrollToElement(driver.findElement(By.xpath("//a[@href='https://www.facebook.com/WebstaurantStore']")));
+        SeleniumUtils.scrollToElement(driver.findElement(By.xpath("//a[@href='https://www.facebook.com/WebstaurantStore']")));
         driver.findElement(By.xpath("//a[@href='https://www.facebook.com/WebstaurantStore']")).click();
         Thread.sleep(1000);
-        switchToWindow("WebstaurantStore - Home | Facebook");
-
+        SeleniumUtils.switchToWindow("WebstaurantStore - Home | Facebook");
         System.out.println(driver.getTitle());
         driver.findElement(By.xpath("(//div[@class='bp9cbjyn rq0escxv j83agx80 pfnyh3mw frgo5egb l9j0dhe7 cb02d2ww hv4rvrfc dati1w0a'])[4]")).click();
         getScreenshot("FacebookScreenShot");
@@ -80,13 +47,32 @@ public class AppButtonsCheckTests extends TestBase{
     public void checkInstagramLinks() throws InterruptedException {
 
         driver.get(ConfigReader.getProperty("url"));
-        scrollToElement(driver.findElement(By.xpath("//a[@href='https://www.instagram.com/WebstaurantStore/']")));
+        SeleniumUtils.scrollToElement(driver.findElement(By.xpath("//a[@href='https://www.instagram.com/WebstaurantStore/']")));
         driver.findElement(By.xpath("//a[@href='https://www.instagram.com/WebstaurantStore/']")).click();
         Thread.sleep(2000);
-        switchToWindow("Login Instagram");
+        SeleniumUtils.switchToWindow("Login Instagram");
+        //  SeleniumUtils.switchToWindow("Webstaurantstore (@webstaurantstore) Instagram..");
         System.out.println(driver.getTitle());
 //        driver.findElement(By.xpath("//span[@aria-label='Close']")).click();
 //        driver.findElement(By.xpath("//span[@class='rlFg3']")).click();
+        switchToWindow("WebstaurantStore: Restaurant Supplies & Foodservice Equipment");
+        Assert.assertEquals(driver.getTitle(),"WebstaurantStore: Restaurant Supplies & Foodservice Equipment");
+    }
+
+    @Test
+    public void checkYouTubeLinks() throws InterruptedException {
+
+        driver.get(ConfigReader.getProperty("url"));
+        scrollToElement(driver.findElement(By.xpath("//a[@href='https://www.youtube.com/user/WebstaurantStore']")));
+        driver.findElement(By.xpath("//a[@href='https://www.youtube.com/user/WebstaurantStore']")).click();
+        Thread.sleep(2000);
+        switchToWindow("WebstaurantStore - YouTube");
+        System.out.println(driver.getTitle());
+        waitForClickablility(driver.findElement(By.xpath("(//div[@class='ytp-scrubber-container'])[1]")),3);
+        WebElement element = driver.findElement(By.xpath("(//div[@class='ytp-scrubber-container'])[1]"));
+        Actions actions = new Actions(driver);
+        actions.moveToElement(element).sendKeys(Keys.ARROW_RIGHT).sendKeys(Keys.ARROW_RIGHT).sendKeys(Keys.ARROW_RIGHT).build().perform();
+        SeleniumUtils.getScreenshot("YouTube");
         switchToWindow("WebstaurantStore: Restaurant Supplies & Foodservice Equipment");
         Assert.assertEquals(driver.getTitle(),"WebstaurantStore: Restaurant Supplies & Foodservice Equipment");
     }
