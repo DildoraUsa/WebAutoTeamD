@@ -24,6 +24,7 @@ public class CheckAboutUsTests extends TestBase{
         System.out.println(driver.getTitle());
 
     }
+    /// test for Jenkins
 
     @Test
     public void checkAboutUsButtonKansasCity() {
